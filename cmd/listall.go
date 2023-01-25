@@ -19,14 +19,15 @@ package cmd
 import (
 	"fmt"
 	trackfx "github.com/faculerena/bugtracker/cmd/functions"
-	"github.com/spf13/cobra"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
-	Use:   "list [number]",
-	Short: "List all non solved bugs",
+// listallCmd represents the listall command
+var listallCmd = &cobra.Command{
+	Use:   "listall ",
+	Short: "List all bugs",
 	Long: `use 'list' to retrieve ALL bugs saved on the tracker, or use 
 'tracker [number] to retrieve the last [number] bugs saved'`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -37,21 +38,21 @@ var listCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		t.List()
+		t.ListAll()
 
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(listallCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// listallCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// listallCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

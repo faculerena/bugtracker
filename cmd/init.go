@@ -19,6 +19,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -40,6 +41,7 @@ var initCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+		err = os.WriteFile(".id", []byte(strconv.Itoa(1)), 0644)
 	},
 }
 

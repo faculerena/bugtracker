@@ -114,8 +114,11 @@ func (t *Tracker) List() {
 		how := bug.Steps
 		priority := bug.Priority
 		created := bug.Created
-
 		solved := bug.Solved
+		if solved == true {
+			continue
+		}
+
 		cells = append(cells, *&[]*simpletable.Cell{
 			{Text: fmt.Sprintf("%d", id)},
 			{Text: what},
@@ -138,7 +141,54 @@ func (t *Tracker) List() {
 	table.Println()
 }
 
-func (t *Tracker) Complete(index int) error {
+func (t *Tracker) ListAll() {
+
+	table := simpletable.New()
+
+	table.Header = &simpletable.Header{
+		Cells: []*simpletable.Cell{
+			{Align: simpletable.AlignCenter, Text: "ID"},
+			{Align: simpletable.AlignCenter, Text: "What?"},
+			{Align: simpletable.AlignCenter, Text: "How?"},
+			{Align: simpletable.AlignCenter, Text: "Priority"},
+			{Align: simpletable.AlignCenter, Text: "Created"},
+			{Align: simpletable.AlignCenter, Text: "Solved"},
+		},
+	}
+
+	var cells [][]*simpletable.Cell
+
+	for _, bug := range *t {
+		id := bug.ID
+		what := bug.What
+		how := bug.Steps
+		priority := bug.Priority
+		created := bug.Created
+		solved := bug.Solved
+
+		cells = append(cells, *&[]*simpletable.Cell{
+			{Text: fmt.Sprintf("%d", id)},
+			{Text: what},
+			{Text: how},
+			{Text: strconv.Itoa(priority)},
+			{Text: created.Format(time.RFC822)},
+			{Text: strconv.FormatBool(solved)},
+		})
+
+	}
+
+	table.Body = &simpletable.Body{Cells: cells}
+	/*
+		table.Footer = &simpletable.Footer{Cells: []*simpletable.Cell{
+			{Align: simpletable.AlignCenter, Span: 5, Text: fmt.Sprintf("You have %d pending todos", t.CountPending()))},
+		}}
+	*/
+	table.SetStyle(simpletable.StyleRounded)
+
+	table.Println()
+}
+
+func (t *Tracker) Solve(index int) error {
 	ls := *t
 	if index <= 0 || index > len(ls) {
 		return errors.New("invalid index")

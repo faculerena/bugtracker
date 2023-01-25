@@ -18,8 +18,10 @@ package cmd
 
 import (
 	"fmt"
+	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
 	"os"
+	"strconv"
 )
 
 // solveCmd represents the solved command
@@ -29,9 +31,32 @@ var solveCmd = &cobra.Command{
 	Long:  `Use 'tracker solved <ID>' to mark a bug as solved.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("solved called")
-		if len(args) > 1 {
+		if len(args) != 1 {
 			os.Exit(1)
 		}
+		t := &trackfx.Tracker{}
+		if err := t.Load(trackfx.TrackerFile); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(2)
+		}
+
+		solvedID, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+		fmt.Println(solvedID)
+		err = t.Solve(solvedID)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+		err = t.Store(trackfx.TrackerFile)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+
 	},
 }
 
