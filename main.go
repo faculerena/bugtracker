@@ -16,8 +16,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package main
 
-import "github.com/faculerena/bugtracker/cmd"
+import (
+	"github.com/faculerena/bugtracker/cmd"
+)
 
 func main() {
+
 	cmd.Execute()
 }

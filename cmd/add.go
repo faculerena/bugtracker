@@ -19,6 +19,7 @@ package cmd
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
@@ -50,11 +51,18 @@ var addCmd = &cobra.Command{
 		id, what, how, priority, _ := getInputAdd()
 		fmt.Println(id, what, how, priority)
 		t := &Tracker{}
-		t.Add(id, what, how, priority, false)
-		err := t.Store(trackfx.TrackerFile)
-		if err != nil {
+
+		if err := t.Load(trackfx.TrackerFile); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
+		}
+
+		t.Add(id, what, how, priority, false)
+
+		err := t.Store(trackfx.TrackerFile)
+
+		if err != nil {
+
 		}
 	},
 }
@@ -133,4 +141,24 @@ func (t *Tracker) Store(filename string) error {
 	}
 	return os.WriteFile(filename, data, 0664)
 
+}
+
+func (t *Tracker) Load(filename string) error {
+	file, err := os.ReadFile(filename)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return err
+	}
+
+	if len(file) == 0 {
+		return err
+	}
+
+	err = json.Unmarshal(file, t)
+	if err != nil {
+		return err
+	}
+	return nil
 }
