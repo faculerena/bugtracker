@@ -22,6 +22,7 @@ import (
 	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -39,7 +40,7 @@ var listCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		t.Print()
+		t.List()
 
 	},
 }
@@ -58,36 +59,53 @@ func init() {
 	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func (t *Tracker) Print() {
+func (t *Tracker) List() {
 
 	table := simpletable.New()
 
+	/*
+		trackfx.Bug{
+			ID:        0,
+			What:      "",
+			Steps:     "",
+			Priority:  0,
+			Created:   time.Time{},
+			Completed: time.Time{},
+			Solved:    false,
+		}
+
+	*/
+
 	table.Header = &simpletable.Header{
 		Cells: []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Text: "#"},
-			{Align: simpletable.AlignCenter, Text: "Task"},
-			{Align: simpletable.AlignCenter, Text: "Done?"},
-			{Align: simpletable.AlignRight, Text: "CreatedAt"},
-			{Align: simpletable.AlignRight, Text: "CompletedAt"},
+			{Align: simpletable.AlignCenter, Text: "ID"},
+			{Align: simpletable.AlignCenter, Text: "What?"},
+			{Align: simpletable.AlignCenter, Text: "How?"},
+			{Align: simpletable.AlignCenter, Text: "Priority"},
+			{Align: simpletable.AlignCenter, Text: "Created"},
+			{Align: simpletable.AlignCenter, Text: "Completed"},
+			{Align: simpletable.AlignCenter, Text: "Solved"},
 		},
 	}
 
 	var cells [][]*simpletable.Cell
 
-	for idx, bug := range *t {
-		idx++
-		task := bug.What
-		done := "no"
-		if bug.Solved {
-			task = fmt.Sprintf("\u2705 %s", bug.What)
-			done = "yes"
-		}
+	for _, bug := range *t {
+		id := bug.ID
+		what := bug.What
+		how := bug.Steps
+		priority := bug.Priority
+		created, completed := bug.Created, bug.Completed
+		solved := bug.Solved
+
 		cells = append(cells, *&[]*simpletable.Cell{
-			{Text: fmt.Sprintf("%d", idx)},
-			{Text: task},
-			{Text: done},
-			{Text: bug.Created.Format(time.RFC822)},
-			{Text: bug.Completed.Format(time.RFC822)},
+			{Text: fmt.Sprintf("%d", id)},
+			{Text: what},
+			{Text: how},
+			{Text: strconv.Itoa(priority)},
+			{Text: created.Format(time.RFC822)},
+			{Text: completed.Format(time.RFC822)},
+			{Text: strconv.FormatBool(solved)},
 		})
 	}
 
