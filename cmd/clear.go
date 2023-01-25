@@ -25,13 +25,9 @@ import (
 // clearCmd represents the clear command
 var clearCmd = &cobra.Command{
 	Use:   "clear",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Clear all bugs saved",
+	Long: `You can use 'tracker clear' and a check message will appear, if you confirm it, the tracker 
+will become empty as new.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("clear called")
 	},
