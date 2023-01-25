@@ -7,6 +7,7 @@ name: CICD
 on:
   push:
     branches:
+    - main
     - master
     - staging
     - develop
