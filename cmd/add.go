@@ -18,12 +18,27 @@ package cmd
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
+
+type Bug struct {
+	ID        int
+	What      string
+	Steps     string
+	Priority  int
+	Created   time.Time
+	Completed time.Time
+	Solved    bool
+}
+
+type Tracker []Bug
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
@@ -33,8 +48,14 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
 		id, what, how, priority, _ := getInputAdd()
-
 		fmt.Println(id, what, how, priority)
+		t := &Tracker{}
+		t.Add(id, what, how, priority, false)
+		err := t.Store(trackfx.TrackerFile)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
 	},
 }
 
@@ -89,5 +110,27 @@ func getInputAdd() (int, string, string, int, bool) {
 	priorityReturn, _ := strconv.Atoi(priority)
 
 	return idReturn, what, how, priorityReturn, false
+
+}
+
+func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bool) {
+	tracker := Bug{
+		ID,
+		what,
+		steps,
+		priority,
+		time.Now(),
+		time.Time{},
+		solved,
+	}
+	*t = append(*t, tracker)
+}
+
+func (t *Tracker) Store(filename string) error {
+	data, err := json.Marshal(t)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filename, data, 0664)
 
 }
