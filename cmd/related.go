@@ -25,7 +25,7 @@ import (
 // relatedCmd represents the related command
 var relatedCmd = &cobra.Command{
 	Use:   "related <ID>",
-	Short: "Get all bugs related with <ID>",
+	Short: "WIP", //Get all bugs related with <ID>
 	Long:  `You can use 'related <ID>' to get all the bugs related to that ID`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("related called")

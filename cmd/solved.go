@@ -25,7 +25,7 @@ import (
 // solvedCmd represents the solved command
 var solvedCmd = &cobra.Command{
 	Use:   "solved <ID>",
-	Short: "Mark a bug as solved",
+	Short: "WIP", //"Mark a bug as solved",
 	Long:  `Use 'tracker solved <ID>' to mark a bug as solved.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("solved called")

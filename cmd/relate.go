@@ -25,7 +25,7 @@ import (
 // relateCmd represents the relate command
 var relateCmd = &cobra.Command{
 	Use:   "relate <ID> <ID_target>",
-	Short: "Relate a bug with another",
+	Short: "WIP", //Relate a bug with another
 	Long: `Use relate <ID_to_relate> <ID_target_bug> to add the first bug to the "related bugs" 
 in the target bug.`,
 	Run: func(cmd *cobra.Command, args []string) {
