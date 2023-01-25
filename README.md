@@ -20,7 +20,7 @@ For now, all the bugs are stored in .json format in home dir in a file named ".t
 
 # How to install
 
-Having Go ver 1.19.5 you can:
+With Go ver 1.19.5 you can:
 
 Build the file
 
