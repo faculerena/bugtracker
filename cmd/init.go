@@ -17,40 +17,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-// clearCmd represents the clear command
-var clearCmd = &cobra.Command{
-	Use:   "clear",
-	Short: "Clear all bugs saved",
-	Long: `You can use 'tracker clear' and a check message will appear, if you confirm it, the tracker 
-will become empty as new.`,
+// initCmd represents the init command
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Creates the tracker",
+	Long:  `Create the .tracker.json file and start tracking!`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("clear called")
-		confirmText := "DELETE ALL, PLEASE"
-		fmt.Printf("Type %s to continue\n", confirmText)
-		input, err := bufio.NewReader(os.Stdin).ReadString('\n')
-		input = strings.TrimSuffix(input, "\n")
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
-		if input != confirmText {
-			os.Exit(1)
-		}
-
-		err = os.Remove(".tracker.json")
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
-		_, err = os.Create(".tracker.json")
+		fmt.Println("init called")
+		_, err := os.Create(".tracker.json")
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
@@ -59,15 +39,15 @@ will become empty as new.`,
 }
 
 func init() {
-	rootCmd.AddCommand(clearCmd)
+	rootCmd.AddCommand(initCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// clearCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// clearCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
