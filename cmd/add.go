@@ -17,9 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
+	"bufio"
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"os"
+	"strconv"
+	"strings"
 )
 
 // addCmd represents the add command
@@ -34,6 +37,9 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
+		id, what, how, priority, _ := getInputAdd()
+
+		fmt.Println(id, what, how, priority)
 	},
 }
 
@@ -49,4 +55,44 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func getInputAdd() (int, string, string, int, bool) {
+
+	fmt.Println("ID?: ")
+	idInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	id := strings.TrimSuffix(idInput, "\n")
+	idReturn, _ := strconv.Atoi(id)
+
+	fmt.Println("What bug did you encounter?: ")
+	whatInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	what := strings.TrimSuffix(whatInput, "\n")
+
+	fmt.Println("How to reproduce it: ")
+	howInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	how := strings.TrimSuffix(howInput, "\n")
+
+	fmt.Println("What priority does it have?: ")
+	priorityInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	priority := strings.TrimSuffix(priorityInput, "\n")
+	priorityReturn, _ := strconv.Atoi(priority)
+
+	return idReturn, what, how, priorityReturn, false
+
 }
