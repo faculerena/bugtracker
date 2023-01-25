@@ -2,7 +2,6 @@
 Bug Traker made in Go using Cobra.
 
 [![Is compiling?](https://github.com/faculerena/bugtracker/actions/workflows/main.yml/badge.svg)](https://github.com/faculerena/bugtracker/actions/workflows/main.yml)
-
 # About the tracker
 Small CLI app to track bugs, you can:
 
