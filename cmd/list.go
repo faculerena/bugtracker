@@ -18,12 +18,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/alexeyco/simpletable"
 	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
 	"os"
-	"strconv"
-	"time"
 )
 
 // listCmd represents the list command
@@ -34,7 +31,7 @@ var listCmd = &cobra.Command{
 'tracker [number] to retrieve the last [number] bugs saved'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("list called")
-		t := &Tracker{}
+		t := &trackfx.Tracker{}
 		err := t.Load(trackfx.TrackerFile)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -57,65 +54,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func (t *Tracker) List() {
-
-	table := simpletable.New()
-
-	/*
-		trackfx.Bug{
-			ID:        0,
-			What:      "",
-			Steps:     "",
-			Priority:  0,
-			Created:   time.Time{},
-			Completed: time.Time{},
-			Solved:    false,
-		}
-
-	*/
-
-	table.Header = &simpletable.Header{
-		Cells: []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Text: "ID"},
-			{Align: simpletable.AlignCenter, Text: "What?"},
-			{Align: simpletable.AlignCenter, Text: "How?"},
-			{Align: simpletable.AlignCenter, Text: "Priority"},
-			{Align: simpletable.AlignCenter, Text: "Created"},
-			{Align: simpletable.AlignCenter, Text: "Completed"},
-			{Align: simpletable.AlignCenter, Text: "Solved"},
-		},
-	}
-
-	var cells [][]*simpletable.Cell
-
-	for _, bug := range *t {
-		id := bug.ID
-		what := bug.What
-		how := bug.Steps
-		priority := bug.Priority
-		created, completed := bug.Created, bug.Completed
-		solved := bug.Solved
-
-		cells = append(cells, *&[]*simpletable.Cell{
-			{Text: fmt.Sprintf("%d", id)},
-			{Text: what},
-			{Text: how},
-			{Text: strconv.Itoa(priority)},
-			{Text: created.Format(time.RFC822)},
-			{Text: completed.Format(time.RFC822)},
-			{Text: strconv.FormatBool(solved)},
-		})
-	}
-
-	table.Body = &simpletable.Body{Cells: cells}
-	/*
-		table.Footer = &simpletable.Footer{Cells: []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Span: 5, Text: fmt.Sprintf("You have %d pending todos", t.CountPending()))},
-		}}
-	*/
-	table.SetStyle(simpletable.StyleUnicode)
-
-	table.Println()
 }

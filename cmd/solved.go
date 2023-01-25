@@ -18,30 +18,33 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
-// solvedCmd represents the solved command
-var solvedCmd = &cobra.Command{
-	Use:   "solved <ID>",
+// solveCmd represents the solved command
+var solveCmd = &cobra.Command{
+	Use:   "solve <ID>",
 	Short: "WIP", //"Mark a bug as solved",
 	Long:  `Use 'tracker solved <ID>' to mark a bug as solved.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("solved called")
+		if len(args) > 1 {
+			os.Exit(1)
+		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(solvedCmd)
+	rootCmd.AddCommand(solveCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// solvedCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// solveCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// solvedCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// solveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

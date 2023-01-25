@@ -18,28 +18,13 @@ package cmd
 
 import (
 	"bufio"
-	"encoding/json"
-	"errors"
 	"fmt"
 	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
-
-type Bug struct {
-	ID        int
-	What      string
-	Steps     string
-	Priority  int
-	Created   time.Time
-	Completed time.Time
-	Solved    bool
-}
-
-type Tracker []Bug
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
@@ -48,10 +33,11 @@ var addCmd = &cobra.Command{
 	Long:  `tracker add initializes the ask interface to track a new bug`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add called")
+
 		id, what, how, priority, _ := getInputAdd()
 		fmt.Println(id, what, how, priority)
-		t := &Tracker{}
 
+		t := &trackfx.Tracker{}
 		if err := t.Load(trackfx.TrackerFile); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
@@ -62,7 +48,8 @@ var addCmd = &cobra.Command{
 		err := t.Store(trackfx.TrackerFile)
 
 		if err != nil {
-
+			fmt.Println(err.Error())
+			os.Exit(1)
 		}
 	},
 }
@@ -83,14 +70,11 @@ func init() {
 
 func getInputAdd() (int, string, string, int, bool) {
 
-	fmt.Println("ID?: ")
-	idInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	idReturn, err := getNewId()
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-	id := strings.TrimSuffix(idInput, "\n")
-	idReturn, _ := strconv.Atoi(id)
 
 	fmt.Println("What bug did you encounter?: ")
 	whatInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
@@ -121,44 +105,22 @@ func getInputAdd() (int, string, string, int, bool) {
 
 }
 
-func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bool) {
-	tracker := Bug{
-		ID,
-		what,
-		steps,
-		priority,
-		time.Now(),
-		time.Time{},
-		solved,
-	}
-	*t = append(*t, tracker)
-}
-
-func (t *Tracker) Store(filename string) error {
-	data, err := json.Marshal(t)
+func getNewId() (int, error) {
+	file, err := os.ReadFile(".id")
 	if err != nil {
-		return err
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
-	return os.WriteFile(filename, data, 0664)
 
-}
-
-func (t *Tracker) Load(filename string) error {
-	file, err := os.ReadFile(filename)
+	idx, _ := strconv.Atoi(string(file))
+	idreturn := idx
+	idx++
+	err = os.WriteFile(".id", []byte(strconv.Itoa(idx)), 0644)
 	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			return nil
-		}
-		return err
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 
-	if len(file) == 0 {
-		return err
-	}
+	return idreturn, err
 
-	err = json.Unmarshal(file, t)
-	if err != nil {
-		return err
-	}
-	return nil
 }
