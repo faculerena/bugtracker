@@ -19,7 +19,9 @@ package cmd
 import (
 	"fmt"
 	"github.com/alexeyco/simpletable"
+	trackfx "github.com/faculerena/bugtracker/cmd/functions"
 	"github.com/spf13/cobra"
+	"os"
 	"time"
 )
 
@@ -32,6 +34,11 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("list called")
 		t := &Tracker{}
+		err := t.Load(trackfx.TrackerFile)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
 		t.Print()
 
 	},
