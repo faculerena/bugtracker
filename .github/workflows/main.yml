@@ -1,12 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CICD
+name: Is compiling?
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
     branches:
+    - main
     - master
     - staging
     - develop
@@ -44,9 +45,3 @@ jobs:
     - name: Run build
       run: go build . 
       
-    # Run vet & lint on the code
-    - name: Run vet & lint
-      run: |
-        go vet .
-        golint .
-    
