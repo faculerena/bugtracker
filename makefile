@@ -4,13 +4,12 @@ compile:
 	GOOS=linux GOARCH=386 go build -o bin/main-linux-386 main.go
 	GOOS=windows GOARCH=386 go build -o bin/main-windows-386 main.go
 
-build1:
-	go build -o bin/main main.go
+build:
+	echo "Thanks for installing GoTracker, wait for go to build"
+	go build -o ./tracker main.go
 
 run:
 	go run main.go
 
-hello:
-	echo "Thanks for installing GoTracker, wait for go to build"
-
-build: hello build1
+install:
+	go install main.go

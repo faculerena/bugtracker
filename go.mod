@@ -1,4 +1,4 @@
-module github.com/faculerena/bug-tracker
+module github.com/faculerena/bugtracker
 
 go 1.19
 
