@@ -18,6 +18,9 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/faculerena/bugtracker/cmd/tracker"
+	"os"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -31,6 +34,39 @@ in the target bug.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("relate called")
 
+		t := &tracker.Bugs{}
+
+		defer t.Store(tracker.File)
+
+		if err := t.Load(tracker.File); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+
+		if len(args) != 2 {
+			os.Exit(1)
+		}
+
+		toRelate, err := strconv.Atoi(args[0])
+		if err != nil {
+			os.Exit(1)
+		}
+
+		target, err := strconv.Atoi(args[1])
+		if err != nil {
+			os.Exit(1)
+		}
+
+		fmt.Printf("Creating a reference to bug %v on bug %v\n", toRelate, target)
+
+		ls := *t
+		if ls[target-1].Related == nil {
+			fmt.Println("hola")
+
+			ls[target-1].Related = append(ls[toRelate-1].Related, toRelate)
+		}
+
+		//ls[target-1].Related = append(ls[toRelate-1].Related, toRelate)
 	},
 }
 

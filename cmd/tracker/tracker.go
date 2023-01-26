@@ -7,6 +7,7 @@ import (
 	"github.com/alexeyco/simpletable"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -94,6 +95,7 @@ func (t *Bugs) List() {
 			{Align: simpletable.AlignCenter, Text: "Priority"},
 			{Align: simpletable.AlignCenter, Text: "Created"},
 			{Align: simpletable.AlignCenter, Text: "Solved"},
+			{Align: simpletable.AlignCenter, Text: "Related"},
 		},
 	}
 
@@ -106,6 +108,11 @@ func (t *Bugs) List() {
 		priority := bug.Priority
 		created := bug.Created
 		solved := Red("No")
+		related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
+
+		if bug.Related == nil {
+			related = ("none")
+		}
 
 		if bug.Solved == true {
 			continue
@@ -121,6 +128,7 @@ func (t *Bugs) List() {
 			{Text: strconv.Itoa(priority)},
 			{Text: created.Format(time.RFC822)},
 			{Text: solved},
+			{Text: related},
 		})
 
 	}
@@ -148,6 +156,7 @@ func (t *Bugs) ListAll() {
 			{Align: simpletable.AlignCenter, Text: "Priority"},
 			{Align: simpletable.AlignCenter, Text: "Created"},
 			{Align: simpletable.AlignCenter, Text: "Solved"},
+			{Align: simpletable.AlignCenter, Text: "Related"},
 		},
 	}
 
@@ -160,6 +169,11 @@ func (t *Bugs) ListAll() {
 		priority := bug.Priority
 		created := bug.Created
 		solved := Red("No")
+		related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
+
+		if bug.Related == nil {
+			related = ("none")
+		}
 
 		if bug.Solved == true {
 			solved = Green("Yes")
@@ -177,6 +191,7 @@ func (t *Bugs) ListAll() {
 			{Text: strconv.Itoa(priority)},
 			{Text: created.Format(time.RFC822)},
 			{Text: solved},
+			{Text: related},
 		})
 
 	}
@@ -240,7 +255,7 @@ func (t *Bugs) Relate(id int) error {
 		os.Exit(1)
 		return err
 	}
-	
+
 	ls[id-1].Related = append(ls[id-1].Related, id)
 
 	return nil
