@@ -115,7 +115,11 @@ func (t *Tracker) List() {
 		priority := bug.Priority
 		created := bug.Created
 		solved := bug.Solved
+
 		if solved == true {
+			continue
+		}
+		if id == -1 {
 			continue
 		}
 
@@ -166,6 +170,10 @@ func (t *Tracker) ListAll() {
 		created := bug.Created
 		solved := bug.Solved
 
+		if id == -1 {
+			continue
+		}
+
 		cells = append(cells, *&[]*simpletable.Cell{
 			{Text: fmt.Sprintf("%d", id)},
 			{Text: what},
@@ -196,6 +204,22 @@ func (t *Tracker) Solve(index int) error {
 
 	ls[index-1].Completed = time.Now()
 	ls[index-1].Solved = true
+
+	return nil
+}
+
+func (t *Tracker) Remove(index int) error {
+	ls := *t
+	if index <= 0 || index > len(ls) {
+		return errors.New("invalid index")
+	}
+	ls[index-1].ID = -1
+	ls[index-1].Solved = false
+	ls[index-1].Completed = time.Now()
+	ls[index-1].Created = time.Now()
+	ls[index-1].What = ""
+	ls[index-1].Steps = ""
+	ls[index-1].Priority = 0
 
 	return nil
 }
