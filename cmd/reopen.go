@@ -18,6 +18,9 @@ package cmd
 
 import (
 	"fmt"
+	trackfx "github.com/faculerena/bugtracker/cmd/functions"
+	"os"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -30,6 +33,32 @@ var reopenCmd = &cobra.Command{
 open bug, a message will appear and nothing will be modified.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("reopen called")
+		if len(args) != 1 {
+			os.Exit(1)
+		}
+		t := &trackfx.Tracker{}
+		if err := t.Load(trackfx.TrackerFile); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(2)
+		}
+
+		solvedID, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+		fmt.Println(solvedID)
+		err = t.Reopen(solvedID)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+		err = t.Store(trackfx.TrackerFile)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+
 	},
 }
 

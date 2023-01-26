@@ -223,3 +223,15 @@ func (t *Tracker) Remove(index int) error {
 
 	return nil
 }
+
+func (t *Tracker) Reopen(index int) error {
+	ls := *t
+	if index <= 0 || index > len(ls) {
+		return errors.New("invalid index")
+	}
+
+	ls[index-1].Completed = time.Time{}
+	ls[index-1].Solved = false
+
+	return nil
+}
