@@ -33,11 +33,14 @@ will become empty as new.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		confirmText := "DELETE ALL, PLEASE"
 		fmt.Printf("Type %s to continue\n", confirmText)
-		input, err := bufio.NewReader(os.Stdin).ReadString('\n')
-		input = strings.TrimSuffix(input, "\n")
+		input, err := bufio.NewReader(os.Stdin).ReadString('\n') //unix like systems
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
+		}
+		input = strings.TrimSuffix(input, "\n")
+		if input != confirmText {
+			input = strings.TrimSuffix(input, "\r\n") //solution for win systems
 		}
 		if input != confirmText {
 			os.Exit(1)
@@ -53,20 +56,10 @@ will become empty as new.`,
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		fmt.Println("Please, remember to type 'tracker init' before adding a your first bug")
+		fmt.Println("Please, remember to type 'tracker init' before adding your first bug")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(clearCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// clearCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// clearCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
