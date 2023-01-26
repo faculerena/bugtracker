@@ -1,5 +1,5 @@
 # CLI Bug tracker
-Bug Traker made in Go using Cobra.
+Bug Tracker made in Go using Cobra.
 
 [![Is compiling?](https://github.com/faculerena/bugtracker/actions/workflows/main.yml/badge.svg)](https://github.com/faculerena/bugtracker/actions/workflows/main.yml)
 # About the tracker
@@ -36,7 +36,7 @@ Then run it as
 
 ```add``` asks for "what", "how", and "priority"
 
-![add](readmeImages/add.png) 
+![add](readmeImages/add.png)
 
 ```list``` retrieves unsolved bugs
 
