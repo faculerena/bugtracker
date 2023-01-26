@@ -55,6 +55,8 @@ open bug, a message will appear and nothing will be modified.`,
 			os.Exit(3)
 		}
 
+		fmt.Printf("Reopened bug %v\n", solvedID)
+
 	},
 }
 

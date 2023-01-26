@@ -54,6 +54,7 @@ var removeCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
+		fmt.Printf("Deleted bug %v\n", deletingID)
 
 	},
 }
