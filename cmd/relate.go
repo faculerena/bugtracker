@@ -32,7 +32,6 @@ var relateCmd = &cobra.Command{
 	Long: `Use relate <ID_to_relate> <ID_target_bug> to add the first bug to the "related bugs" 
 in the target bug.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("relate called")
 
 		t := &tracker.Bugs{}
 
@@ -61,7 +60,6 @@ in the target bug.`,
 
 		ls := *t
 		if ls[target-1].Related == nil {
-			fmt.Println("hola")
 
 			ls[target-1].Related = append(ls[toRelate-1].Related, toRelate)
 		}
