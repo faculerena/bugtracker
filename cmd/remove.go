@@ -18,7 +18,7 @@ package cmd
 
 import (
 	"fmt"
-	trackfx "github.com/faculerena/bugtracker/cmd/functions"
+	tracker "github.com/faculerena/bugtracker/cmd/tracker"
 	"os"
 	"strconv"
 
@@ -35,8 +35,8 @@ var removeCmd = &cobra.Command{
 		if len(args) != 1 {
 			os.Exit(1)
 		}
-		t := &trackfx.Tracker{}
-		if err := t.Load(trackfx.TrackerFile); err != nil {
+		t := &tracker.Bugs{}
+		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(2)
 		}
@@ -52,7 +52,7 @@ var removeCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
-		err = t.Store(trackfx.TrackerFile)
+		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)

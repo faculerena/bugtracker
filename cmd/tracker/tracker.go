@@ -21,8 +21,8 @@ time solved
 */
 
 const (
-	TrackerFile = ".tracker.json"
-	NotesFile   = ".notes.json"
+	File = ".tracker.json"
+	//NotesFile = ".notes.json"
 )
 
 type Bug struct {
@@ -36,9 +36,9 @@ type Bug struct {
 	Related   []int
 }
 
-type Tracker []Bug
+type Bugs []Bug
 
-func (t *Tracker) Store(filename string) error {
+func (t *Bugs) Store(filename string) error {
 	data, err := json.Marshal(t)
 	if err != nil {
 		return err
@@ -46,7 +46,7 @@ func (t *Tracker) Store(filename string) error {
 	return os.WriteFile(filename, data, 0664)
 
 }
-func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bool) {
+func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool) {
 	var related []int
 	tracker := Bug{
 		ID,
@@ -61,7 +61,7 @@ func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bo
 	*t = append(*t, tracker)
 }
 
-func (t *Tracker) Load(filename string) error {
+func (t *Bugs) Load(filename string) error {
 	file, err := os.ReadFile(filename)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
@@ -81,7 +81,7 @@ func (t *Tracker) Load(filename string) error {
 	return nil
 }
 
-func (t *Tracker) List() {
+func (t *Bugs) List() {
 
 	table := simpletable.New()
 
@@ -148,7 +148,7 @@ func (t *Tracker) List() {
 	table.Println()
 }
 
-func (t *Tracker) ListAll() {
+func (t *Bugs) ListAll() {
 
 	table := simpletable.New()
 
@@ -199,7 +199,7 @@ func (t *Tracker) ListAll() {
 	table.Println()
 }
 
-func (t *Tracker) Solve(index int) error {
+func (t *Bugs) Solve(index int) error {
 	ls := *t
 	if index <= 0 || index > len(ls) {
 		return errors.New("invalid index")
@@ -211,7 +211,7 @@ func (t *Tracker) Solve(index int) error {
 	return nil
 }
 
-func (t *Tracker) Remove(index int) error {
+func (t *Bugs) Remove(index int) error {
 	ls := *t
 	if index <= 0 || index > len(ls) {
 		return errors.New("invalid index")
@@ -227,7 +227,7 @@ func (t *Tracker) Remove(index int) error {
 	return nil
 }
 
-func (t *Tracker) Reopen(index int) error {
+func (t *Bugs) Reopen(index int) error {
 	ls := *t
 	if index <= 0 || index > len(ls) {
 		return errors.New("invalid index")

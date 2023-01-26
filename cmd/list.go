@@ -18,7 +18,7 @@ package cmd
 
 import (
 	"fmt"
-	trackfx "github.com/faculerena/bugtracker/cmd/functions"
+	tracker "github.com/faculerena/bugtracker/cmd/tracker"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -31,8 +31,8 @@ var listCmd = &cobra.Command{
 'tracker [number] to retrieve the last [number] bugs saved'`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("list called")
-		t := &trackfx.Tracker{}
-		err := t.Load(trackfx.TrackerFile)
+		t := &tracker.Bugs{}
+		err := t.Load(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)

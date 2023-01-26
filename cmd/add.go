@@ -19,7 +19,7 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	trackfx "github.com/faculerena/bugtracker/cmd/functions"
+	tracker "github.com/faculerena/bugtracker/cmd/tracker"
 	"github.com/spf13/cobra"
 	"os"
 	"strconv"
@@ -37,15 +37,15 @@ var addCmd = &cobra.Command{
 		id, what, how, priority, _ := getInputAdd()
 		fmt.Println(id, what, how, priority)
 
-		t := &trackfx.Tracker{}
-		if err := t.Load(trackfx.TrackerFile); err != nil {
+		t := &tracker.Bugs{}
+		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
 
 		t.Add(id, what, how, priority, false)
 
-		err := t.Store(trackfx.TrackerFile)
+		err := t.Store(tracker.File)
 
 		if err != nil {
 			fmt.Println(err.Error())
