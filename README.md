@@ -17,6 +17,7 @@ Small CLI app to track bugs, you can:
 
 # Save
 For now, all the bugs are stored in .json format in home dir in a file named ".tracker.json"
+The next usable id is saved there too on a ".id" file. I will make this a better way.
 
 
 # How to install
