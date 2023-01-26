@@ -56,15 +56,12 @@ in the target bug.`,
 			os.Exit(1)
 		}
 
+		ls := *t
+
+		ls[target-1].Related = append(ls[target-1].Related, toRelate)
+
 		fmt.Printf("Creating a reference to bug %v on bug %v\n", toRelate, target)
 
-		ls := *t
-		if ls[target-1].Related == nil {
-
-			ls[target-1].Related = append(ls[toRelate-1].Related, toRelate)
-		}
-
-		//ls[target-1].Related = append(ls[toRelate-1].Related, toRelate)
 	},
 }
 

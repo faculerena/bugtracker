@@ -30,30 +30,30 @@ var solveCmd = &cobra.Command{
 	Short: "WIP", //"Mark a bug as solved",
 	Long:  `Use 'tracker solved <ID>' to mark a bug as solved.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("solved called")
 		if len(args) != 1 {
 			os.Exit(1)
 		}
 		t := &tracker.Bugs{}
-		defer t.Store(tracker.File)
 
 		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(2)
 		}
+		defer t.Store(tracker.File)
 
 		solvedID, err := strconv.Atoi(args[0])
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
-		fmt.Println(solvedID)
+
 		err = t.Solve(solvedID)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
 
+		fmt.Printf("Marked bug %v as solved\n", solvedID)
 	},
 }
 
