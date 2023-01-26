@@ -32,7 +32,6 @@ var reopenCmd = &cobra.Command{
 	Long: `Use 'reopen <ID>' to mark a solved bug as open again. If you put a still 
 open bug, a message will appear and nothing will be modified.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("reopen called")
 		if len(args) != 1 {
 			os.Exit(1)
 		}

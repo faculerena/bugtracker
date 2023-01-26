@@ -30,7 +30,6 @@ var listCmd = &cobra.Command{
 	Long: `use 'list' to retrieve ALL bugs saved on the tracker, or use 
 'tracker [number] to retrieve the last [number] bugs saved'`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
 		t := &tracker.Bugs{}
 		err := t.Load(tracker.File)
 		if err != nil {

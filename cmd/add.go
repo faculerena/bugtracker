@@ -32,10 +32,8 @@ var addCmd = &cobra.Command{
 	Short: "add a bug to the tracker",
 	Long:  `tracker add initializes the ask interface to track a new bug`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
 
 		id, what, how, priority, _ := getInputAdd()
-		fmt.Println(id, what, how, priority)
 
 		t := &tracker.Bugs{}
 		if err := t.Load(tracker.File); err != nil {
@@ -51,6 +49,7 @@ var addCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+		fmt.Printf("Bug with ID %v created\n", id)
 	},
 }
 

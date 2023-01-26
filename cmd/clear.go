@@ -19,10 +19,9 @@ package cmd
 import (
 	"bufio"
 	"fmt"
+	"github.com/spf13/cobra"
 	"os"
 	"strings"
-
-	"github.com/spf13/cobra"
 )
 
 // clearCmd represents the clear command
@@ -32,7 +31,6 @@ var clearCmd = &cobra.Command{
 	Long: `You can use 'tracker clear' and a check message will appear, if you confirm it, the tracker 
 will become empty as new.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("clear called")
 		confirmText := "DELETE ALL, PLEASE"
 		fmt.Printf("Type %s to continue\n", confirmText)
 		input, err := bufio.NewReader(os.Stdin).ReadString('\n')
@@ -55,6 +53,7 @@ will become empty as new.`,
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+		fmt.Println("Please, remember to type 'tracker init' before adding a your first bug")
 	},
 }
 

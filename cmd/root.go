@@ -29,7 +29,9 @@ var rootCmd = &cobra.Command{
 	Long: `Bug Tracker is a small app made in Go using Cobra, 
 below you can see what commands you can use here.
 If you encounter any bug (on this tracker, not on your project!) please create an issue at
-https://github.com/faculerena/bugtracker/issues`,
+https://github.com/faculerena/bugtracker/issues
+PLEASE, if this is your first time using it, or you just did 'clear', use 'tracker init' to 
+start the tracker files`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -53,5 +55,5 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -30,7 +30,7 @@ var initCmd = &cobra.Command{
 	Short: "Creates the tracker",
 	Long:  `Create the .tracker.json file and start tracking!`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
+		fmt.Println("Initializing files")
 		_, err := os.Create(".tracker.json")
 		if err != nil {
 			fmt.Println(err.Error())
@@ -42,6 +42,8 @@ var initCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		err = os.WriteFile(".id", []byte(strconv.Itoa(1)), 0644)
+
+		fmt.Println("You can start tracking bugs!")
 	},
 }
 
