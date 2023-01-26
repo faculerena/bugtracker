@@ -62,6 +62,7 @@ func getInputAdd() (int, string, string, int, bool) {
 	}
 
 	fmt.Println("What bug did you encounter?: ")
+	fmt.Print("> ")
 	whatInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
 		fmt.Println(err.Error())
@@ -70,6 +71,7 @@ func getInputAdd() (int, string, string, int, bool) {
 	what := strings.TrimSuffix(whatInput, "\n")
 
 	fmt.Println("How to reproduce it: ")
+	fmt.Print("> ")
 	howInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
 		fmt.Println(err.Error())
@@ -78,6 +80,7 @@ func getInputAdd() (int, string, string, int, bool) {
 	how := strings.TrimSuffix(howInput, "\n")
 
 	fmt.Println("What priority does it have?: ")
+	fmt.Print("> ")
 	priorityInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 	if err != nil {
 		fmt.Println(err.Error())
