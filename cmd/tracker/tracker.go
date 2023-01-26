@@ -85,19 +85,6 @@ func (t *Bugs) List() {
 
 	table := simpletable.New()
 
-	/*
-		trackfx.Bug{
-			ID:        0,
-			What:      "",
-			Steps:     "",
-			Priority:  0,
-			Created:   time.Time{},
-			Completed: time.Time{},
-			Solved:    false,
-		}
-
-	*/
-
 	table.Header = &simpletable.Header{
 		Cells: []*simpletable.Cell{
 			{Align: simpletable.AlignCenter, Text: "ID"},
@@ -117,9 +104,9 @@ func (t *Bugs) List() {
 		how := bug.Steps
 		priority := bug.Priority
 		created := bug.Created
-		solved := bug.Solved
+		solved := Red("No")
 
-		if solved == true {
+		if bug.Solved == true {
 			continue
 		}
 		if id == -1 {
@@ -132,7 +119,7 @@ func (t *Bugs) List() {
 			{Text: how},
 			{Text: strconv.Itoa(priority)},
 			{Text: created.Format(time.RFC822)},
-			{Text: strconv.FormatBool(solved)},
+			{Text: solved},
 		})
 
 	}
@@ -171,7 +158,12 @@ func (t *Bugs) ListAll() {
 		how := bug.Steps
 		priority := bug.Priority
 		created := bug.Created
-		solved := bug.Solved
+		solved := Red("No")
+
+		if bug.Solved == true {
+			solved = Green("Yes")
+
+		}
 
 		if id == -1 {
 			continue
@@ -183,17 +175,13 @@ func (t *Bugs) ListAll() {
 			{Text: how},
 			{Text: strconv.Itoa(priority)},
 			{Text: created.Format(time.RFC822)},
-			{Text: strconv.FormatBool(solved)},
+			{Text: solved},
 		})
 
 	}
 
 	table.Body = &simpletable.Body{Cells: cells}
-	/*
-		table.Footer = &simpletable.Footer{Cells: []*simpletable.Cell{
-			{Align: simpletable.AlignCenter, Span: 5, Text: fmt.Sprintf("You have %d pending todos", t.CountPending()))},
-		}}
-	*/
+
 	table.SetStyle(simpletable.StyleRounded)
 
 	table.Println()
