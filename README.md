@@ -31,6 +31,17 @@ Then run it as
 
 ```./tracker [cmd]```
 
+# Images
 
+```add``` asks for "what", "how", and "priority"
 
+![add](readmeImages/add.png) 
+
+```list``` retrieves unsolved bugs
+
+![list](readmeImages/list.png)
+
+```listall``` retrieves all bugs
+
+![listall](readmeImages/listall.png) 
 

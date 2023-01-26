@@ -13,3 +13,4 @@ run:
 
 install:
 	go install main.go
+
