@@ -31,10 +31,13 @@ var removeCmd = &cobra.Command{
 	Short: "WIP", //"Remove a bug from the tracker",
 	Long:  `If you want to remove a bug, you can use 'remove <ID>' to delete it from the tracker.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		if len(args) != 1 {
 			os.Exit(1)
 		}
 		t := &tracker.Bugs{}
+		defer t.Store(tracker.File)
+
 		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(2)
@@ -47,11 +50,6 @@ var removeCmd = &cobra.Command{
 		}
 		fmt.Println(deletingID)
 		err = t.Remove(deletingID)
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(3)
-		}
-		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)

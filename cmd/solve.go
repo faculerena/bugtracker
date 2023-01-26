@@ -35,6 +35,8 @@ var solveCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		t := &tracker.Bugs{}
+		defer t.Store(tracker.File)
+
 		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(2)
@@ -47,11 +49,6 @@ var solveCmd = &cobra.Command{
 		}
 		fmt.Println(solvedID)
 		err = t.Solve(solvedID)
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(3)
-		}
-		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)

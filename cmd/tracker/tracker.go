@@ -38,29 +38,6 @@ type Bug struct {
 
 type Bugs []Bug
 
-func (t *Bugs) Store(filename string) error {
-	data, err := json.Marshal(t)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(filename, data, 0664)
-
-}
-func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool) {
-	var related []int
-	tracker := Bug{
-		ID,
-		what,
-		steps,
-		priority,
-		time.Now(),
-		time.Time{},
-		solved,
-		related,
-	}
-	*t = append(*t, tracker)
-}
-
 func (t *Bugs) Load(filename string) error {
 	file, err := os.ReadFile(filename)
 	if err != nil {
@@ -79,6 +56,30 @@ func (t *Bugs) Load(filename string) error {
 		return err
 	}
 	return nil
+}
+
+func (t *Bugs) Store(filename string) error {
+	data, err := json.Marshal(t)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filename, data, 0664)
+
+}
+
+func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool) {
+	var related []int
+	tracker := Bug{
+		ID,
+		what,
+		steps,
+		priority,
+		time.Now(),
+		time.Time{},
+		solved,
+		related,
+	}
+	*t = append(*t, tracker)
 }
 
 func (t *Bugs) List() {
@@ -223,6 +224,24 @@ func (t *Bugs) Reopen(index int) error {
 
 	ls[index-1].Completed = time.Time{}
 	ls[index-1].Solved = false
+
+	return nil
+}
+
+func (t *Bugs) Relate(id int) error {
+	ls := *t
+	file, err := os.ReadFile(".id")
+	if err != nil {
+		os.Exit(1)
+		return err
+	}
+	nextID, _ := strconv.Atoi(string(file))
+	if id >= nextID {
+		os.Exit(1)
+		return err
+	}
+	
+	ls[id-1].Related = append(ls[id-1].Related, id)
 
 	return nil
 }

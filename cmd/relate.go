@@ -30,6 +30,7 @@ var relateCmd = &cobra.Command{
 in the target bug.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("relate called")
+
 	},
 }
 
