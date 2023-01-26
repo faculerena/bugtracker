@@ -33,6 +33,7 @@ type Bug struct {
 	Created   time.Time
 	Completed time.Time
 	Solved    bool
+	Related   []int
 }
 
 type Tracker []Bug
@@ -46,6 +47,7 @@ func (t *Tracker) Store(filename string) error {
 
 }
 func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bool) {
+	var related []int
 	tracker := Bug{
 		ID,
 		what,
@@ -54,6 +56,7 @@ func (t *Tracker) Add(ID int, what string, steps string, priority int, solved bo
 		time.Now(),
 		time.Time{},
 		solved,
+		related,
 	}
 	*t = append(*t, tracker)
 }
