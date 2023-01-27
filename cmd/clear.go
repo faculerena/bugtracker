@@ -19,6 +19,7 @@ package cmd
 import (
 	"bufio"
 	"fmt"
+	tracker "github.com/faculerena/bugtracker/internal"
 	"github.com/spf13/cobra"
 	"os"
 	"strings"
@@ -28,7 +29,7 @@ import (
 var clearCmd = &cobra.Command{
 	Use:   "clear",
 	Short: "Clear all bugs saved",
-	Long: `You can use 'internal clear' and a check message will appear, if you confirm it, the internal 
+	Long: `You can use 'tracker clear' and a check message will appear, if you confirm it, the tracker 
 will become empty as new.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		confirmText := "DELETE ALL, PLEASE"
@@ -46,17 +47,17 @@ will become empty as new.`,
 			os.Exit(1)
 		}
 
-		err = os.Remove(".internal.json")
+		err = os.Remove(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		_, err = os.Create(".internal.json")
+		_, err = os.Create(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		fmt.Println("Please, remember to type 'internal init' before adding your first bug")
+		fmt.Println("Please, remember to type 'tracker init' before adding your first bug")
 	},
 }
 

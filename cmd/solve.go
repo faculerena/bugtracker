@@ -28,7 +28,7 @@ import (
 var solveCmd = &cobra.Command{
 	Use:   "solve <ID>",
 	Short: "WIP", //"Mark a bug as solved",
-	Long:  `Use 'internal solved <ID>' to mark a bug as solved.`,
+	Long:  `Use 'tracker solved <ID>' to mark a bug as solved.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
 			os.Exit(1)

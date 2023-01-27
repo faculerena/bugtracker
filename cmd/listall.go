@@ -28,8 +28,7 @@ import (
 var listallCmd = &cobra.Command{
 	Use:   "listall ",
 	Short: "List all bugs",
-	Long: `use 'list' to retrieve ALL bugs saved on the internal, or use 
-'internal [number] to retrieve the last [number] bugs saved'`,
+	Long:  `Use 'tracker list' to retrieve ALL bugs saved on the tracker`,
 	Run: func(cmd *cobra.Command, args []string) {
 		t := &tracker.Bugs{}
 		err := t.Load(tracker.File)

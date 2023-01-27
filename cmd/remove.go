@@ -28,8 +28,8 @@ import (
 // removeCmd represents the remove command
 var removeCmd = &cobra.Command{
 	Use:   "remove <ID>",
-	Short: "WIP", //"Remove a bug from the internal",
-	Long:  `If you want to remove a bug, you can use 'remove <ID>' to delete it from the internal.`,
+	Short: "WIP", //"Remove a bug from the tracker",
+	Long:  `If you want to remove a bug, you can use 'remove <ID>' to delete it from the tracker.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) != 1 {

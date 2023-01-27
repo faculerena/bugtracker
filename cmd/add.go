@@ -29,8 +29,8 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "add a bug to the internal",
-	Long:  `internal add initializes the ask interface to track a new bug`,
+	Short: "add a bug to the tracker",
+	Long:  `tracker add initializes the ask interface to track a new bug`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		id, what, how, priority, _ := getInputAdd()
