@@ -39,7 +39,6 @@ var solveCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(2)
 		}
-		defer t.Store(tracker.File)
 
 		solvedID, err := strconv.Atoi(args[0])
 		if err != nil {
@@ -48,6 +47,12 @@ var solveCmd = &cobra.Command{
 		}
 
 		err = t.Solve(solvedID)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+
+		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)

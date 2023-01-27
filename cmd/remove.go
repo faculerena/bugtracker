@@ -36,7 +36,6 @@ var removeCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		t := &tracker.Bugs{}
-		defer t.Store(tracker.File)
 
 		if err := t.Load(tracker.File); err != nil {
 			fmt.Println(err.Error())
@@ -56,6 +55,11 @@ var removeCmd = &cobra.Command{
 		}
 		fmt.Printf("Deleted bug %v\n", deletingID)
 
+		err = t.Store(tracker.File)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
 	},
 }
 
