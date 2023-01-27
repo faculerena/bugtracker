@@ -18,7 +18,7 @@ package cmd
 
 import (
 	"fmt"
-	tracker "github.com/faculerena/bugtracker/cmd/tracker"
+	"github.com/faculerena/bugtracker/internal"
 	"os"
 	"strconv"
 

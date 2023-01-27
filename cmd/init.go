@@ -27,11 +27,11 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Creates the tracker",
-	Long:  `Create the .tracker.json file and start tracking!`,
+	Short: "Creates the internal",
+	Long:  `Create the .internal.json file and start tracking!`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Initializing files")
-		_, err := os.Create(".tracker.json")
+		_, err := os.Create(".internal.json")
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)

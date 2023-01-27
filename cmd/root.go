@@ -24,14 +24,14 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "tracker",
+	Use:   "internal",
 	Short: "Track your bugs on your terminal with this CLI",
 	Long: `Bug Tracker is a small app made in Go using Cobra, 
 below you can see what commands you can use here.
-If you encounter any bug (on this tracker, not on your project!) please create an issue at
+If you encounter any bug (on this internal, not on your project!) please create an issue at
 https://github.com/faculerena/bugtracker/issues
-PLEASE, if this is your first time using it, or you just did 'clear', use 'tracker init' to 
-start the tracker files`,
+PLEASE, if this is your first time using it, or you just did 'clear', use 'internal init' to 
+start the internal files`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

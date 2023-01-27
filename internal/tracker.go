@@ -22,7 +22,7 @@ time solved
 */
 
 const (
-	File = ".tracker.json"
+	File = ".internal.json"
 	//NotesFile = ".notes.json"
 )
 
