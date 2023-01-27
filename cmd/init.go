@@ -17,6 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	tracker "github.com/faculerena/bugtracker/internal"
 	"os"
@@ -31,8 +32,16 @@ var initCmd = &cobra.Command{
 	Short: "Creates the tracker",
 	Long:  `Create the .tracker.json file and start tracking!`,
 	Run: func(cmd *cobra.Command, args []string) {
+		
+		_, err := os.Open(tracker.File)
+		if errors.Is(err, os.ErrNotExist) != true {
+			fmt.Println("File already exists. If you want to clear the tracker use 'tracker clear'")
+			os.Exit(1)
+		}
+
 		fmt.Println("Initializing files")
-		_, err := os.Create(tracker.File)
+
+		_, err = os.Create(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
