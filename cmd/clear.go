@@ -44,6 +44,7 @@ will become empty as new.`,
 			input = strings.TrimSuffix(input, "\r\n") //solution for win systems
 		}
 		if input != confirmText {
+			fmt.Println("Error in confirmation text")
 			os.Exit(1)
 		}
 
@@ -52,11 +53,12 @@ will become empty as new.`,
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		_, err = os.Create(tracker.File)
+		err = os.Remove(".id")
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
+
 		fmt.Println("Please, remember to type 'tracker init' before adding your first bug")
 	},
 }

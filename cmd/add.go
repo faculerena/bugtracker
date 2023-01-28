@@ -99,7 +99,7 @@ func getInputAdd() (int, string, string, int, bool) {
 func getNewId() (int, error) {
 	file, err := os.ReadFile(".id")
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Please type 'tracker init', the id file doesn't exist")
 		os.Exit(1)
 	}
 

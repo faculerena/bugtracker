@@ -85,6 +85,12 @@ func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool)
 
 func (t *Bugs) List() {
 
+	_, err := os.Open(File)
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Tracker not found. Please, type 'tracker init'.")
+		os.Exit(1)
+	}
+
 	table := simpletable.New()
 
 	table.Header = &simpletable.Header{
@@ -145,6 +151,12 @@ func (t *Bugs) List() {
 }
 
 func (t *Bugs) ListAll() {
+
+	_, err := os.Open(File)
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Tracker not found. Please, type 'tracker init'.")
+		os.Exit(1)
+	}
 
 	table := simpletable.New()
 
