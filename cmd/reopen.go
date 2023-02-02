@@ -51,13 +51,13 @@ open bug, a message will appear and nothing will be modified.`,
 		err = t.Reopen(solvedID)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(4)
 		}
 
 		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(5)
 		}
 
 		fmt.Printf("Reopened bug %v\n", solvedID)

@@ -51,14 +51,14 @@ var removeCmd = &cobra.Command{
 		err = t.Remove(deletingID)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(4)
 		}
 		fmt.Printf("Deleted bug %v\n", deletingID)
 
 		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(5)
 		}
 	},
 }
