@@ -46,7 +46,7 @@ Then run it as
 
 ![list](readmeImages/list.png)
 
-```listall``` retrieves all bugs
+```list all``` retrieves all bugs
 
-![listall](readmeImages/listall.png) 
+![list all](readmeImages/listall.png) 
 
