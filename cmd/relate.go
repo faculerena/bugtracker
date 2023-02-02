@@ -41,17 +41,17 @@ in the target bug.`,
 		}
 
 		if len(args) != 2 {
-			os.Exit(1)
+			os.Exit(2)
 		}
 
 		toRelate, err := strconv.Atoi(args[0])
 		if err != nil {
-			os.Exit(1)
+			os.Exit(3)
 		}
 
 		target, err := strconv.Atoi(args[1])
 		if err != nil {
-			os.Exit(1)
+			os.Exit(4)
 		}
 
 		ls := *t
@@ -61,7 +61,7 @@ in the target bug.`,
 		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(5)
 		}
 
 		fmt.Printf("Creating a reference to bug %v on bug %v\n", toRelate, target)

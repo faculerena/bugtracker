@@ -1,6 +1,7 @@
 package tracker
 
 import (
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -83,6 +84,132 @@ func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool)
 	*t = append(*t, tracker)
 }
 
+func (t *Bugs) Get(ID int) error {
+	_, err := os.Open(File)
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Tracker not found. Please, type 'tracker init'.")
+		os.Exit(1)
+	}
+
+	table := simpletable.New()
+
+	table.Header = &simpletable.Header{
+		Cells: []*simpletable.Cell{
+			{Align: simpletable.AlignCenter, Text: "ID"},
+			{Align: simpletable.AlignCenter, Text: "What?"},
+			{Align: simpletable.AlignCenter, Text: "How?"},
+			{Align: simpletable.AlignCenter, Text: "Priority"},
+			{Align: simpletable.AlignCenter, Text: "Created"},
+			{Align: simpletable.AlignCenter, Text: "Solved"},
+			{Align: simpletable.AlignCenter, Text: "Related"},
+		},
+	}
+
+	var cells [][]*simpletable.Cell
+
+	for _, bug := range *t {
+		if bug.ID != ID {
+			continue
+		}
+		id := bug.ID
+		what := bug.What
+		how := bug.Steps
+		priority := bug.Priority
+		created := bug.Created
+		solved := Red("No")
+		related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
+
+		if bug.Related == nil {
+			related = ("none")
+		}
+
+		if bug.Solved == true {
+			continue
+		}
+		if id == -1 {
+			continue
+		}
+
+		cells = append(cells, *&[]*simpletable.Cell{
+			{Text: fmt.Sprintf("%d", id)},
+			{Text: what},
+			{Text: how},
+			{Text: strconv.Itoa(priority)},
+			{Text: created.Format(time.RFC822)},
+			{Text: solved},
+			{Text: related},
+		})
+
+	}
+
+	table.Body = &simpletable.Body{Cells: cells}
+
+	if len(cells) == 0 {
+		os.Exit(1)
+	}
+
+	table.SetStyle(simpletable.StyleRounded)
+
+	table.Println()
+
+	return nil
+}
+
+func (t *Bugs) Edit(ID int) error {
+
+	_, err := os.Open(File)
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Tracker not found. Please, type 'tracker init'.")
+		os.Exit(1)
+	}
+
+	ls := *t
+	if ID <= 0 || ID > len(ls) {
+		return errors.New("invalid index")
+	}
+
+	fmt.Println("Editing 'What?' field. Leave blank to keep without modification:")
+	fmt.Print("> ")
+	whatInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	if whatInput != "" {
+		ls[ID-1].What = strings.TrimSuffix(whatInput, "\n")
+	}
+
+	fmt.Println("Editing 'How?' field. Leave blank to keep without modification:")
+	fmt.Print("> ")
+	howInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	if howInput != "" {
+		ls[ID-1].Steps = strings.TrimSuffix(howInput, "\n")
+	}
+
+	fmt.Println("Editing 'Priority?' field. Leave blank to keep without modification:")
+	fmt.Print("> ")
+	priorityInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	prioritySt := strings.TrimSuffix(priorityInput, "\n")
+
+	if priorityInput != "" {
+		ls[ID-1].Priority, err = strconv.Atoi(prioritySt)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (t *Bugs) List(tracker *Bugs, sorting string) {
 
 	_, err := os.Open(File)
@@ -156,33 +283,6 @@ func (t *Bugs) List(tracker *Bugs, sorting string) {
 	table.Println()
 }
 
-// for i := 0; i < len(*tracker)-1; i++ {
-func sort(tracker *Bugs, sorting string) Bugs {
-
-	switch sorting {
-
-	case "priority":
-		return *tracker
-	case "id":
-		var isDone = false
-		t := *tracker
-
-		for !isDone {
-			isDone = true
-			var i = 0
-			for i < len(*tracker)-1 {
-				if t[i].Priority > t[i+1].Priority {
-					t[i], t[i+1] = t[i+1], t[i]
-					isDone = false
-				}
-				i++
-			}
-		}
-		return t
-	}
-	return nil
-}
-
 func (t *Bugs) ListAll(tracker *Bugs, sorting string) {
 
 	_, err := os.Open(File)
@@ -252,6 +352,32 @@ func (t *Bugs) ListAll(tracker *Bugs, sorting string) {
 	table.SetStyle(simpletable.StyleRounded)
 
 	table.Println()
+}
+
+func sort(tracker *Bugs, sorting string) Bugs {
+
+	switch sorting {
+
+	case "priority":
+		return *tracker
+	case "id":
+		var isDone = false
+		t := *tracker
+
+		for !isDone {
+			isDone = true
+			var i = 0
+			for i < len(*tracker)-1 {
+				if t[i].Priority > t[i+1].Priority {
+					t[i], t[i+1] = t[i+1], t[i]
+					isDone = false
+				}
+				i++
+			}
+		}
+		return t
+	}
+	return nil
 }
 
 func (t *Bugs) Solve(index int) error {

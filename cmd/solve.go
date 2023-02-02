@@ -39,7 +39,6 @@ var solveCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(2)
 		}
-
 		solvedID, err := strconv.Atoi(args[0])
 		if err != nil {
 			fmt.Println(err.Error())
@@ -49,13 +48,13 @@ var solveCmd = &cobra.Command{
 		err = t.Solve(solvedID)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(4)
 		}
 
 		err = t.Store(tracker.File)
 		if err != nil {
 			fmt.Println(err.Error())
-			os.Exit(3)
+			os.Exit(5)
 		}
 
 		fmt.Printf("Marked bug %v as solved\n", solvedID)
