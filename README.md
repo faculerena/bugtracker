@@ -28,11 +28,13 @@ With Go ver 1.19.5 you can:
 
 Build the file
 
-``make build``
+``go build``
+
 
 Then run it as 
 
 ```./tracker [cmd]```
+
 
 # Images
 
