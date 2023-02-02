@@ -36,11 +36,18 @@ var listallCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		t.ListAll()
+
+		if !cmd.Flags().Lookup("priority").Changed {
+			t.ListAll(t, "priority")
+		} else {
+			t.ListAll(t, "id")
+
+		}
 
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(listallCmd)
+	listallCmd.Flags().BoolP("priority", "p", true, "Return list ordered by priority")
 }
