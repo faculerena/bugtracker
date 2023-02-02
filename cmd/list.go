@@ -27,8 +27,8 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list [number]",
 	Short: "List all non solved bugs",
-	Long: `use 'list' to retrieve ALL bugs saved on the tracker, or use 
-'tracker [number] to retrieve the last [number] bugs saved'`,
+	Long: `use 'list' to retrieve all open bugs, use 'list all' to retrieve ALL
+bugs. Use flag -p to order the results by priority`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		t := &tracker.Bugs{}
@@ -39,11 +39,12 @@ var listCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if !cmd.Flags().Lookup("priority").Changed {
+		priority := !cmd.Flags().Lookup("priority").Changed
+
+		if priority {
 			t.List(t, "priority")
 		} else {
 			t.List(t, "id")
-
 		}
 
 	},
@@ -52,5 +53,4 @@ var listCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(listCmd)
 	listCmd.Flags().BoolP("priority", "p", true, "Return list ordered by priority")
-
 }

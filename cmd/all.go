@@ -18,17 +18,22 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/faculerena/bugtracker/internal"
+	tracker "github.com/faculerena/bugtracker/internal"
 	"os"
 
 	"github.com/spf13/cobra"
 )
 
-// listallCmd represents the listall command
-var listallCmd = &cobra.Command{
-	Use:   "listall ",
-	Short: "List all bugs",
-	Long:  `Use 'tracker list' to retrieve ALL bugs saved on the tracker`,
+// allCmd represents the all command
+var allCmd = &cobra.Command{
+	Use:   "all",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		t := &tracker.Bugs{}
 		err := t.Load(tracker.File)
@@ -48,6 +53,17 @@ var listallCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listallCmd)
-	listallCmd.Flags().BoolP("priority", "p", true, "Return list ordered by priority")
+	listCmd.AddCommand(allCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// allCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+
+	allCmd.Flags().BoolP("priority", "p", true, "Return list ordered by priority")
+
 }
