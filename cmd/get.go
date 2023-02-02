@@ -27,16 +27,10 @@ import (
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
-	Use:   "get",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "get <ID>",
+	Short: "Returns the bug with said <ID>",
+	Long:  `Returns the bug with said <ID>`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get called")
 
 		if len(args) != 1 {
 			os.Exit(1)

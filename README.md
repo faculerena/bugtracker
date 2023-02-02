@@ -6,15 +6,17 @@ Bug Tracker made in Go using Cobra.
 Small CLI app to track bugs, you can:
 
 * **ADD** new bugs to track
-* Mark as **SOLVED** an existing bug
+* **GET \<ID>** returns that bug.
+* Mark as **SOLVED \<ID>** an existing bug
 * Create a **NOTE** for an existing bug **[WIP]**
-* **DELETE** saved bugs, or **DELETEALL** solved bugs
+* **DELETE \<ID>** to delete a bug.
 * **CLEAR** the tracker
-* **RELATE** a bug with another (one to many)
-  * You can use **RELATED <id>** to retrieve all the bugs related to an ID (including itself) **[WIP]**
+* **RELATE \<ID> <ID_target>** a bug with another.
+  * You can use **RELATED \<ID>** to retrieve all the bugs related to an ID (including itself) **[WIP]**
 * **REOPEN** a solved bug
 * **LIST** to retrieve all open bugs. 
 * **LISTALL** to retrieve all bugs, open and solved.
+* **EDIT \<ID>** an existing bug 
 
 # Save
 For now, all the bugs are stored in .json format in home dir in a file named ".tracker.json"
