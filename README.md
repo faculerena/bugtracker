@@ -12,10 +12,9 @@ Small CLI app to track bugs, you can:
 * **DELETE \<ID>** to delete a bug.
 * **CLEAR** the tracker
 * **RELATE \<ID> <ID_target>** a bug with another.
-  * You can use **RELATED \<ID>** to retrieve all the bugs related to an ID (including itself) **[WIP]**
+  * You can use **RELATED \<ID>** to retrieve all the bugs related to an ID (including itself)
 * **REOPEN** a solved bug
 * **LIST** to retrieve all open bugs. 
-* **LISTALL** to retrieve all bugs, open and solved.
 * **EDIT \<ID>** an existing bug 
 
 # Save

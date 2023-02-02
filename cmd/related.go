@@ -18,17 +18,41 @@ package cmd
 
 import (
 	"fmt"
-
+	tracker "github.com/faculerena/bugtracker/internal"
 	"github.com/spf13/cobra"
+	"os"
+	"strconv"
 )
 
 // relatedCmd represents the related command
 var relatedCmd = &cobra.Command{
 	Use:   "related <ID>",
-	Short: "WIP", //Get all bugs related with <ID>
+	Short: "Get all bugs related with <ID>", //
 	Long:  `You can use 'tracker related <ID>' to get all the bugs related to that ID`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("related called")
+		if len(args) != 1 {
+			os.Exit(1)
+		}
+		t := &tracker.Bugs{}
+
+		if err := t.Load(tracker.File); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(2)
+		}
+
+		solvedID, err := strconv.Atoi(args[0])
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
+
+		err = t.Related(solvedID)
+		if err != nil {
+			fmt.Println(err.Error())
+			os.Exit(4)
+		}
+
 	},
 }
 
