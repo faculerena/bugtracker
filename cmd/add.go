@@ -33,7 +33,7 @@ var addCmd = &cobra.Command{
 	Long:  `tracker add initializes the ask interface to track a new bug`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		id, what, how, priority, _ := getInputAdd()
+		id, what, how, priority, _ := GetInputAdd()
 
 		t := &tracker.Bugs{}
 		if err := t.Load(tracker.File); err != nil {
@@ -56,7 +56,7 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 }
 
-func getInputAdd() (int, string, string, int, bool) {
+func GetInputAdd() (int, string, string, int, bool) {
 
 	idReturn, err := getNewId()
 	if err != nil {
