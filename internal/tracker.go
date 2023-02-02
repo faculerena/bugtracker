@@ -83,7 +83,7 @@ func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool)
 	*t = append(*t, tracker)
 }
 
-func (t *Bugs) List() {
+func (t *Bugs) List(tracker *Bugs, sorting string) {
 
 	_, err := os.Open(File)
 	if errors.Is(err, os.ErrNotExist) {
@@ -107,7 +107,13 @@ func (t *Bugs) List() {
 
 	var cells [][]*simpletable.Cell
 
-	for _, bug := range *t {
+	sorted := sort(tracker, sorting)
+	if sorted == nil {
+		fmt.Println("An error occurred.")
+		os.Exit(1)
+	}
+
+	for _, bug := range sorted {
 		id := bug.ID
 		what := bug.What
 		how := bug.Steps
@@ -148,6 +154,33 @@ func (t *Bugs) List() {
 	table.SetStyle(simpletable.StyleRounded)
 
 	table.Println()
+}
+
+// for i := 0; i < len(*tracker)-1; i++ {
+func sort(tracker *Bugs, sorting string) Bugs {
+
+	switch sorting {
+
+	case "priority":
+		return *tracker
+	case "id":
+		var isDone = false
+		t := *tracker
+
+		for !isDone {
+			isDone = true
+			var i = 0
+			for i < len(*tracker)-1 {
+				if t[i].Priority > t[i+1].Priority {
+					t[i], t[i+1] = t[i+1], t[i]
+					isDone = false
+				}
+				i++
+			}
+		}
+		return t
+	}
+	return nil
 }
 
 func (t *Bugs) ListAll() {

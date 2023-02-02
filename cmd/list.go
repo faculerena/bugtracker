@@ -30,17 +30,27 @@ var listCmd = &cobra.Command{
 	Long: `use 'list' to retrieve ALL bugs saved on the tracker, or use 
 'tracker [number] to retrieve the last [number] bugs saved'`,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		t := &tracker.Bugs{}
 		err := t.Load(tracker.File)
+
 		if err != nil {
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		t.List()
+
+		if !cmd.Flags().Lookup("priority").Changed {
+			t.List(t, "priority")
+		} else {
+			t.List(t, "id")
+
+		}
 
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolP("priority", "p", true, "Return list ordered by priority")
+
 }
