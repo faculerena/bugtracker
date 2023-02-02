@@ -183,7 +183,7 @@ func sort(tracker *Bugs, sorting string) Bugs {
 	return nil
 }
 
-func (t *Bugs) ListAll() {
+func (t *Bugs) ListAll(tracker *Bugs, sorting string) {
 
 	_, err := os.Open(File)
 	if errors.Is(err, os.ErrNotExist) {
@@ -207,7 +207,13 @@ func (t *Bugs) ListAll() {
 
 	var cells [][]*simpletable.Cell
 
-	for _, bug := range *t {
+	sorted := sort(tracker, sorting)
+	if sorted == nil {
+		fmt.Println("An error occurred.")
+		os.Exit(1)
+	}
+
+	for _, bug := range sorted {
 		id := bug.ID
 		what := bug.What
 		how := bug.Steps
