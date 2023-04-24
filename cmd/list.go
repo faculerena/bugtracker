@@ -36,11 +36,19 @@ var listCmd = &cobra.Command{
 			fmt.Println(err.Error())
 			os.Exit(1)
 		}
-		t.List()
+
+		isSet := cmd.Flags().Lookup("priority").Changed
+
+		if isSet {
+			t.List("priority")
+		} else {
+			t.List("id")
+		}
 
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().BoolP("priority", "p", false, "Retrieve the list ordered by priority")
 }

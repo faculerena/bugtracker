@@ -83,7 +83,7 @@ func (t *Bugs) Add(ID int, what string, steps string, priority int, solved bool)
 	*t = append(*t, tracker)
 }
 
-func (t *Bugs) List() {
+func (t *Bugs) List(sorting string) {
 
 	_, err := os.Open(File)
 	if errors.Is(err, os.ErrNotExist) {
@@ -107,36 +107,75 @@ func (t *Bugs) List() {
 
 	var cells [][]*simpletable.Cell
 
-	for _, bug := range *t {
-		id := bug.ID
-		what := bug.What
-		how := bug.Steps
-		priority := bug.Priority
-		created := bug.Created
-		solved := Red("No")
-		related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
+	if sorting == "id" {
+		for _, bug := range *t {
+			id := bug.ID
+			what := bug.What
+			how := bug.Steps
+			priority := bug.Priority
+			created := bug.Created
+			solved := Red("No")
+			related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
 
-		if bug.Related == nil {
-			related = ("none")
+			if bug.Related == nil {
+				related = ("none")
+			}
+
+			if bug.Solved == true {
+				continue
+			}
+			if id == -1 {
+				continue
+			}
+
+			cells = append(cells, *&[]*simpletable.Cell{
+				{Text: fmt.Sprintf("%d", id)},
+				{Text: what},
+				{Text: how},
+				{Text: strconv.Itoa(priority)},
+				{Text: created.Format(time.RFC822)},
+				{Text: solved},
+				{Text: related},
+			})
+
 		}
+	}
 
-		if bug.Solved == true {
-			continue
+	if sorting == "priority" {
+
+		sorted := sort(t, sorting)
+
+		for _, bug := range sorted {
+			id := bug.ID
+			what := bug.What
+			how := bug.Steps
+			priority := bug.Priority
+			created := bug.Created
+			solved := Red("No")
+			related := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(bug.Related)), ","), "[]")
+
+			if bug.Related == nil {
+				related = ("none")
+			}
+
+			if bug.Solved == true {
+				continue
+			}
+			if id == -1 {
+				continue
+			}
+
+			cells = append(cells, *&[]*simpletable.Cell{
+				{Text: fmt.Sprintf("%d", id)},
+				{Text: what},
+				{Text: how},
+				{Text: strconv.Itoa(priority)},
+				{Text: created.Format(time.RFC822)},
+				{Text: solved},
+				{Text: related},
+			})
+
 		}
-		if id == -1 {
-			continue
-		}
-
-		cells = append(cells, *&[]*simpletable.Cell{
-			{Text: fmt.Sprintf("%d", id)},
-			{Text: what},
-			{Text: how},
-			{Text: strconv.Itoa(priority)},
-			{Text: created.Format(time.RFC822)},
-			{Text: solved},
-			{Text: related},
-		})
-
 	}
 
 	table.Body = &simpletable.Body{Cells: cells}
@@ -271,4 +310,25 @@ func (t *Bugs) Relate(id int) error {
 	ls[id-1].Related = append(ls[id-1].Related, id)
 
 	return nil
+}
+
+func sort(t *Bugs, sorting string) Bugs {
+	for _, bug := range *t {
+		fmt.Println(bug.Priority)
+
+	}
+
+	var isDone = false
+
+	for !isDone {
+		isDone = true
+		for i, bug := range *t {
+			if n[i] > n[i+1] {
+				n[i], n[i+1] = n[i+1], n[i]
+				isDone = false
+			}
+			i++
+		}
+	}
+
 }

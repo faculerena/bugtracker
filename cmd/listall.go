@@ -37,7 +37,6 @@ var listallCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		t.ListAll()
-
 	},
 }
 
